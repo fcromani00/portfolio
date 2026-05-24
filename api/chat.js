@@ -61,35 +61,54 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
 
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: [
-            ...history.slice(-6),
-            { role: 'user', parts: [{ text: message }] }
-          ],
-          generationConfig: { maxOutputTokens: 300, temperature: 0.7 }
-        })
-      }
-    );
-
-    const data = await response.json();
-    if (!response.ok) {
-      console.error('Gemini API error:', JSON.stringify(data));
-      throw new Error(data.error?.message || 'Gemini API error');
+  // Inject system context as first exchange (works with all Gemini models)
+  const contextTurn = [
+    {
+      role: 'user',
+      parts: [{ text: `You are a portfolio assistant. Follow these instructions exactly:\n\n${SYSTEM_PROMPT}\n\nAcknowledge with "Ready."` }]
+    },
+    {
+      role: 'model',
+      parts: [{ text: 'Ready.' }]
     }
+  ];
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!reply) throw new Error('Empty response from Gemini');
+  const models = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-pro'];
 
-    return res.status(200).json({ reply });
-  } catch (err) {
-    console.error('Chat error:', err.message);
-    return res.status(500).json({ error: err.message });
+  for (const model of models) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              ...contextTurn,
+              ...history.slice(-6),
+              { role: 'user', parts: [{ text: message }] }
+            ],
+            generationConfig: { maxOutputTokens: 300, temperature: 0.7 }
+          })
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.warn(`Model ${model} failed:`, data.error?.message);
+        continue; // try next model
+      }
+
+      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!reply) { continue; }
+
+      return res.status(200).json({ reply, model });
+    } catch (err) {
+      console.warn(`Model ${model} threw:`, err.message);
+      continue;
+    }
   }
+
+  return res.status(500).json({ error: 'All models failed. Check your API key at aistudio.google.com.' });
 }
