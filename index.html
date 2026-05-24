@@ -298,13 +298,23 @@
 
     /* ── CHAT WIDGET ── */
     .chat-btn {
-      position:fixed; bottom:24px; right:24px; z-index:200;
-      width:56px; height:56px; background:var(--accent); color:#fff;
-      border:none; border-radius:50%; cursor:pointer; font-size:1.3rem;
-      box-shadow:0 4px 24px rgba(59,130,246,.45);
-      transition: all var(--t); display:flex; align-items:center; justify-content:center;
+      position:fixed; bottom:28px; right:28px; z-index:200;
+      height:52px; padding:0 22px 0 18px;
+      background:linear-gradient(135deg,#6366f1,#3b82f6);
+      color:#fff; border:none; border-radius:100px; cursor:pointer;
+      font-size:.88rem; font-weight:700; letter-spacing:.01em;
+      display:flex; align-items:center; gap:10px;
+      box-shadow:0 6px 28px rgba(99,102,241,.55);
+      transition: all var(--t);
+      animation: chatGlow 3s ease-in-out infinite;
     }
-    .chat-btn:hover { background:var(--accentH); transform:scale(1.08); }
+    .chat-btn:hover { transform:translateY(-2px) scale(1.03); box-shadow:0 10px 36px rgba(99,102,241,.7); }
+    .chat-btn i { font-size:1.1rem; }
+    .chat-btn-label { white-space:nowrap; }
+    @keyframes chatGlow {
+      0%,100% { box-shadow:0 6px 28px rgba(99,102,241,.55); }
+      50%      { box-shadow:0 6px 28px rgba(99,102,241,.55), 0 0 0 6px rgba(99,102,241,.15); }
+    }
     .chat-window {
       position:fixed; bottom:92px; right:24px; z-index:200;
       width:340px; height:470px;
@@ -405,7 +415,7 @@
     <div class="hero-badge" data-en="Open to new opportunities" data-pt="Aberto a novas oportunidades">Open to new opportunities</div>
     <p class="hero-hi"   data-en="Hi, I'm"    data-pt="Olá, sou">Hi, I'm</p>
     <h1 class="hero-name">Felipe Romani</h1>
-    <p class="hero-role" data-en="Data Engineer &amp; AI Developer" data-pt="Engenheiro de Dados &amp; Desenvolvedor de IA">Data Engineer &amp; AI Developer</p>
+    <p class="hero-role" data-en="Data Analyst · Data Engineer · Gen AI Developer" data-pt="Analista de Dados · Engenheiro de Dados · Desenvolvedor de IA">Data Analyst · Data Engineer · Gen AI Developer</p>
     <p class="hero-loc"  data-en="📍 São Paulo, Brazil"            data-pt="📍 São Paulo, Brasil">📍 São Paulo, Brazil</p>
     <div class="hero-cta">
       <a href="#projects" class="btn-p" data-en="View Projects →" data-pt="Ver Projetos →">View Projects →</a>
@@ -418,29 +428,29 @@
 <section id="about">
   <div class="wrap">
     <p class="s-label" data-en="About Me"    data-pt="Sobre Mim">About Me</p>
-    <h2 class="s-title" data-en="Building data systems that create real impact" data-pt="Construindo sistemas de dados com impacto real">Building data systems that create real impact</h2>
+    <h2 class="s-title" data-en="From soccer pitches to fintech AI" data-pt="Dos campos de futebol à IA no fintech">From soccer pitches to fintech AI</h2>
     <div class="about-grid">
       <div class="about-text">
-        <p data-en="Data Engineer and AI Developer with 3+ years of experience, currently at Mercado Pago (MercadoLibre Group). I specialize in building robust data pipelines, ETL automation on Google Cloud, and AI-powered applications." data-pt="Engenheiro de Dados e Desenvolvedor de IA com mais de 3 anos de experiência, atualmente no Mercado Pago (Grupo MercadoLibre). Especializado em construção de pipelines de dados robustos, automação ETL no Google Cloud e aplicações com IA.">Data Engineer and AI Developer with 3+ years of experience, currently at Mercado Pago (MercadoLibre Group). I specialize in building robust data pipelines, ETL automation on Google Cloud, and AI-powered applications.</p>
-        <p data-en="Proficient in Python, SQL, BigQuery, and Google Cloud Platform. Passionate about applying AI and data engineering to solve complex financial problems at scale." data-pt="Proficiente em Python, SQL, BigQuery e Google Cloud Platform. Apaixonado por aplicar IA e engenharia de dados para resolver problemas financeiros complexos em escala.">Proficient in Python, SQL, BigQuery, and Google Cloud Platform. Passionate about applying AI and data engineering to solve complex financial problems at scale.</p>
-        <p data-en="Outside of work, I build full-stack apps — from CRM systems and nutrition platforms to AI investment agents — and constantly explore new tools in the AI ecosystem." data-pt="Fora do trabalho, construo aplicações full-stack — de sistemas CRM e plataformas de nutrição a agentes de investimento com IA — e exploro constantemente as novidades do ecossistema de IA.">Outside of work, I build full-stack apps — from CRM systems and nutrition platforms to AI investment agents — and constantly explore new tools in the AI ecosystem.</p>
+        <p data-en="Data Analyst, Data Engineer, and AI Developer with 4+ years of experience across investment banking, semiconductors, and fintech. My journey started in soccer performance analytics — which shaped my results-driven approach to data. I've since worked at BTG Pactual (LatAm's largest investment bank), Intel, and Warren Investimentos." data-pt="Analista de Dados, Engenheiro de Dados e Desenvolvedor de IA com mais de 4 anos de experiência em bancos de investimento, tecnologia e fintech. Minha trajetória começou na análise de desempenho esportivo — o que moldou minha abordagem orientada a resultados. Trabalhei no BTG Pactual, Intel e Warren Investimentos.">Data Analyst, Data Engineer, and AI Developer with 4+ years of experience across investment banking, semiconductors, and fintech. My journey started in soccer performance analytics — which shaped my results-driven approach to data. I've since worked at BTG Pactual (LatAm's largest investment bank), Intel, and Warren Investimentos.</p>
+        <p data-en="Currently at Mercado Livre (MercadoLibre Group) as Data Analyst &amp; Automation Developer in the Fintech Funding team — ranked in the <strong>top 0.41% of GenAI users at MELI</strong>, leading AI adoption and increasing team coding productivity by ~50%." data-pt="Atualmente no Mercado Livre (Grupo MercadoLibre) como Analista de Dados e Desenvolvedor de Automação no time de Fintech Funding — entre os <strong>top 0.41% de usuários de GenAI no MELI</strong>, liderando a adoção de IA e aumentando a produtividade de código do time em ~50%.">Currently at Mercado Livre (MercadoLibre Group) as Data Analyst &amp; Automation Developer in the Fintech Funding team — ranked in the <strong>top 0.41% of GenAI users at MELI</strong>, leading AI adoption and increasing team coding productivity by ~50%.</p>
+        <p data-en="Outside of work, I build full-stack apps — CRM systems, nutrition platforms, sports APIs, and AI investment agents — constantly exploring the cutting edge of the AI ecosystem." data-pt="Fora do trabalho, construo apps full-stack — CRMs, plataformas de nutrição, APIs esportivas e agentes de investimento com IA — explorando constantemente o que há de mais novo no ecossistema de IA.">Outside of work, I build full-stack apps — CRM systems, nutrition platforms, sports APIs, and AI investment agents — constantly exploring the cutting edge of the AI ecosystem.</p>
       </div>
       <div class="stats">
         <div class="stat">
-          <div class="stat-n">3+</div>
+          <div class="stat-n">4+</div>
           <div class="stat-l" data-en="Years of Experience" data-pt="Anos de Experiência">Years of Experience</div>
         </div>
         <div class="stat">
-          <div class="stat-n">+20%</div>
-          <div class="stat-l" data-en="Revenue Impact" data-pt="Impacto em Receita">Revenue Impact</div>
+          <div class="stat-n">Top 0.41%</div>
+          <div class="stat-l" data-en="GenAI Users at MELI" data-pt="Usuários de GenAI no MELI">GenAI Users at MELI</div>
         </div>
         <div class="stat">
-          <div class="stat-n">10+</div>
-          <div class="stat-l" data-en="Projects Built" data-pt="Projetos Construídos">Projects Built</div>
+          <div class="stat-n">+50%</div>
+          <div class="stat-l" data-en="Team Productivity Gain" data-pt="Ganho de Produtividade do Time">Team Productivity Gain</div>
         </div>
         <div class="stat">
-          <div class="stat-n">∞</div>
-          <div class="stat-l" data-en="Passion for Data" data-pt="Paixão por Dados">Passion for Data</div>
+          <div class="stat-n">4</div>
+          <div class="stat-l" data-en="Companies · 3 Industries" data-pt="Empresas · 3 Indústrias">Companies · 3 Industries</div>
         </div>
       </div>
     </div>
@@ -764,8 +774,9 @@
 </section>
 
 <!-- ── CHAT WIDGET ── -->
-<button class="chat-btn" id="chat-btn" onclick="toggleChat()" title="Ask about Felipe">
+<button class="chat-btn" id="chat-btn" onclick="toggleChat()">
   <i class="fas fa-comment-dots"></i>
+  <span class="chat-btn-label" data-en="Ask about Felipe" data-pt="Pergunte sobre o Felipe">Ask about Felipe</span>
 </button>
 <div class="chat-window" id="chat-window">
   <div class="chat-hd">
@@ -773,7 +784,7 @@
       <div class="chat-avatar">🤖</div>
       <div>
         <h4 data-en="Ask about Felipe" data-pt="Pergunte sobre o Felipe">Ask about Felipe</h4>
-        <p data-en="AI Assistant · Powered by Gemini" data-pt="Assistente IA · Gemini">AI Assistant · Powered by Gemini</p>
+        <p data-en="AI Assistant · Powered by Groq" data-pt="Assistente IA · Groq">AI Assistant · Powered by Groq</p>
       </div>
     </div>
     <button class="chat-x" onclick="toggleChat()"><i class="fas fa-times"></i></button>
@@ -846,9 +857,17 @@
   function toggleChat() {
     chatOpen = !chatOpen;
     document.getElementById('chat-window').classList.toggle('open', chatOpen);
-    const btn = document.getElementById('chat-btn');
-    btn.innerHTML = chatOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-comment-dots"></i>';
-    if (chatOpen) setTimeout(() => document.getElementById('chat-inp').focus(), 200);
+    const btn   = document.getElementById('chat-btn');
+    const label = btn.querySelector('.chat-btn-label');
+    const icon  = btn.querySelector('i');
+    if (chatOpen) {
+      icon.className = 'fas fa-times';
+      if (label) label.style.display = 'none';
+      setTimeout(() => document.getElementById('chat-inp').focus(), 200);
+    } else {
+      icon.className = 'fas fa-comment-dots';
+      if (label) label.style.display = '';
+    }
   }
 
   function escHtml(t) {
