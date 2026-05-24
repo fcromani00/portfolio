@@ -68,7 +68,7 @@ module.exports = async function handler(req, res) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
           contents: [
             ...history.slice(-6),
             { role: 'user', parts: [{ text: message }] }
@@ -90,6 +90,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ reply });
   } catch (err) {
     console.error('Chat error:', err.message);
-    return res.status(500).json({ error: 'Could not get a response. Please try again.' });
+    return res.status(500).json({ error: err.message });
   }
 }
