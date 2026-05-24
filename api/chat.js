@@ -1,51 +1,69 @@
 const SYSTEM_PROMPT = `You are a portfolio assistant for Felipe Romani. Answer questions about him in a friendly, professional, and concise way (2-4 sentences max). Always respond in the same language the user writes in — Portuguese or English.
 
 ABOUT FELIPE:
-Felipe Romani is a Data Engineer and AI Developer based in Bela Vista, São Paulo, Brazil, with 3+ years of experience. He currently works at Mercado Pago (MercadoLibre Group) in the Funding & Credit team. Before transitioning to tech, he graduated in Physical Education at the Universidade de São Paulo (USP), then pursued an Associate Degree in Systems Analysis and Development at Instituto Federal de São Paulo (IFSP).
+Felipe Romani is a Data Analyst, Data Engineer, and AI Developer based in São Paulo, Brazil, with 4+ years of experience across investment banking, semiconductors, and fintech. His journey started in soccer performance analytics at VO Sports, which shaped his results-driven approach to data. He's ranked in the top 0.41% of GenAI users at MELI.
 
-CURRENT ROLE — Mercado Pago (2023–Present):
-- Delivered a Corporate Lending Dashboard for the largest investment bank in Latin America → 20% revenue increase
-- Built ETL pipelines on Google Cloud Dataflow (Apache Beam) for financial data processing at scale
-- Developed FIDC expense tracking and reconciliation systems for credit fund operations
-- Built AI-powered automation tools using Claude (Anthropic) and Google Gemini
-- Managed MCP (Model Context Protocol) integrations with BigQuery for AI-assisted data analysis
+CAREER HISTORY:
+1. Mercado Livre — MercadoLibre Group (Jul 2025 – Present) | Data Analyst & Automation Developer, Fintech Funding, Osasco SP
+   - Top 0.41% GenAI user at MELI; led LLM training, boosting team coding productivity ~50%
+   - Built FIDC Daily Cash Automation (Dataflow + n8n), saving ~1 hour of manual work daily
+   - Automated financial movement classification, reducing monthly closing by 4 hours
+   - Implemented CVM regulatory monitoring routines for investor data integrity
+
+2. Warren Investimentos (Jan 2025 – Jul 2025) | Data Analyst, São Paulo
+   - Financial dashboards for BMF, Bovespa, Private Credit, Government Bonds desks
+   - Data pipelines in Databricks (PySpark + SQL); delivered C-Level reports
+
+3. Intel Corporation (Sep 2023 – Oct 2024) | Data Engineer / BI Developer, São Paulo
+   - CRM data pipelines from Salesforce using Databricks, Snowflake, SSAS — global English-speaking team
+   - Power BI and Tableau dashboards with DAX, data storytelling, UX/UI
+
+4. BTG Pactual (Aug 2022 – Jul 2023) | BI Developer, São Paulo — Largest investment bank in Latin America
+   - Corporate Lending Dashboard → 20% increase in revenue for the lending team
+   - Power BI dashboards with SQL SSAS, data storytelling, UX/UI; managed projects end-to-end
+
+5. VO Sports (Mar 2021 – Sep 2022) | Soccer Performance Data Analyst
+   - Performance analysis for US university soccer teams; quantitative and qualitative insights
+
+EDUCATION:
+- IFSP: Tecnólogo em Análise e Desenvolvimento de Sistemas (2022–2024)
+- USP: Bacharelado em Educação Física e Saúde (2018–2021)
+
+CERTIFICATIONS: Databricks Lakehouse Fundamentals, Snowflake Data Warehousing, Azure Data Factory, AWS Big Data, English C2 Proficient, ML in Sports Analytics.
 
 SKILLS:
 - Languages: Python, SQL, JavaScript, Bash
-- Cloud & Data: GCP, BigQuery, Dataflow, Apache Beam, Cloud Storage, AWS
-- AI & ML: Claude AI, Gemini, DeepSeek, Agno, CrewAI, MCP
-- Frameworks: Streamlit, Flask, FastAPI, Pandas, Scikit-Learn
+- Cloud & Data: GCP, BigQuery, Dataflow, Apache Beam, n8n, Databricks, Snowflake, AWS
+- AI & ML: Claude AI, Gemini, DeepSeek, Agno, CrewAI, MCP, Llama
+- Frameworks: Streamlit, Flask, FastAPI, PySpark, Pandas, Scikit-Learn
 - Databases: PostgreSQL, Supabase, BigQuery, SQLite
-- Tools: Git, Docker, Vercel, Power BI, Databricks, Snowflake
+- Tools: Git, Docker, Vercel, Power BI, Tableau, SSAS, Azure DevOps
 
 PROJECTS:
-1. CRM Consórcios — Full-stack CRM for consortium management (Streamlit + Supabase). github.com/fcromani00/crm-consorcios
+1. CRM Consórcios — Full-stack CRM (Streamlit + Supabase). github.com/fcromani00/crm-consorcios
 2. Nutri-App — Nutrition platform with patient management and meal plans. github.com/fcromani00/Nutri-App
 3. PlaymakerStats API — REST API for football statistics, deployed on Vercel. github.com/fcromani00/PlaymakerStats-API
-4. Dashboard Finanças — Personal finance tracker with AI financial advisor. github.com/fcromani00/Dashboard-Financas
-5. ScoutDatabase — Football scouting database. Live at scoutdatabasev1.streamlit.app
-6. Corporate Lending Dashboard — BI dashboard (+20% revenue). Professional project, no public code.
+4. Dashboard Finanças — Personal finance tracker with AI advisor. github.com/fcromani00/Dashboard-Financas
+5. ScoutDatabase — Football scouting database. Live: scoutdatabasev1.streamlit.app
+6. Corporate Lending Dashboard — BI dashboard (+20% revenue) at BTG Pactual. No public code.
 7. NYC Taxi Demand Predictor — ML model on Databricks/Spark.
-8. TumTum IA — AI-powered Streamlit app. Live at tumtum.streamlit.app
-
-EDUCATION:
-- IFSP: Associate Degree in Systems Analysis and Development
-- USP: Bachelor's Degree in Physical Education and Health
-
-CERTIFICATIONS: Databricks Lakehouse Fundamentals, Snowflake Data Warehousing, Azure Data Factory, AWS Big Data.
+8. TumTum IA — AI-powered Streamlit app. Live: tumtum.streamlit.app
 
 CONTACT:
-- Email: fcromani@alumni.usp.br
+- Email: fcromani@alumni.usp.br | fcromani00@gmail.com
 - WhatsApp: +55 12 98247-3960
 - LinkedIn: linkedin.com/in/feliperomani
 - GitHub: github.com/fcromani00
+- Instagram: instagram.com/romanifelipe
+
+LANGUAGES: English (Professional Working), Spanish (Professional Working), Italian (Elementary)
 
 RULES:
 - Be concise — max 3-4 sentences per reply.
 - Respond in the exact language the user writes in (PT or EN).
 - Do not make up information not listed above.
 - For off-topic questions, politely say you can only help with questions about Felipe.
-- Encourage the user to reach out directly for professional opportunities.`;
+- Encourage users to reach out directly for professional opportunities.`;
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -58,57 +76,47 @@ module.exports = async function handler(req, res) {
   const { message, history = [] } = req.body || {};
   if (!message?.trim()) return res.status(400).json({ error: 'Message is required' });
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'API key not configured (GROQ_API_KEY)' });
 
-  // Inject system context as first exchange (works with all Gemini models)
-  const contextTurn = [
-    {
-      role: 'user',
-      parts: [{ text: `You are a portfolio assistant. Follow these instructions exactly:\n\n${SYSTEM_PROMPT}\n\nAcknowledge with "Ready."` }]
-    },
-    {
-      role: 'model',
-      parts: [{ text: 'Ready.' }]
-    }
+  // Convert history to OpenAI-compatible format
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...history.slice(-6).map(h => ({
+      role: h.role === 'model' ? 'assistant' : h.role,
+      content: h.parts?.[0]?.text || h.content || ''
+    })),
+    { role: 'user', content: message }
   ];
 
-  const models = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-pro'];
+  try {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages,
+        max_tokens: 300,
+        temperature: 0.7
+      })
+    });
 
-  for (const model of models) {
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [
-              ...contextTurn,
-              ...history.slice(-6),
-              { role: 'user', parts: [{ text: message }] }
-            ],
-            generationConfig: { maxOutputTokens: 300, temperature: 0.7 }
-          })
-        }
-      );
+    const data = await response.json();
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.warn(`Model ${model} failed:`, data.error?.message);
-        continue; // try next model
-      }
-
-      const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!reply) { continue; }
-
-      return res.status(200).json({ reply, model });
-    } catch (err) {
-      console.warn(`Model ${model} threw:`, err.message);
-      continue;
+    if (!response.ok) {
+      console.error('Groq API error:', JSON.stringify(data));
+      throw new Error(data.error?.message || 'Groq API error');
     }
-  }
 
-  return res.status(500).json({ error: 'All models failed. Check your API key at aistudio.google.com.' });
-}
+    const reply = data.choices?.[0]?.message?.content;
+    if (!reply) throw new Error('Empty response from Groq');
+
+    return res.status(200).json({ reply });
+  } catch (err) {
+    console.error('Chat error:', err.message);
+    return res.status(500).json({ error: err.message });
+  }
+};
