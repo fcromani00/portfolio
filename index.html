@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Felipe Romani — Data Engineer & AI Developer based in São Paulo, Brazil.">
+  <title>Felipe Romani — Data Engineer & AI Developer</title>
+  <link rel="shortcut icon" href="assets/images/mylogo-2-149x190.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0f172a;
+      --bg2:      #1e293b;
+      --bg3:      #334155;
+      --txt:      #f8fafc;
+      --txt2:     #94a3b8;
+      --accent:   #3b82f6;
+      --accentH:  #60a5fa;
+      --accentS:  rgba(59,130,246,.1);
+      --border:   #334155;
+      --r:        12px;
+      --t:        .3s ease;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--txt);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top:0; width:100%; z-index:100;
+      padding: 16px 0;
+      transition: background var(--t), border-color var(--t);
+    }
+    nav.scrolled {
+      background: rgba(15,23,42,.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-wrap {
+      max-width:1100px; margin:0 auto; padding:0 24px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo img { height:38px; }
+    .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+    .nav-links a {
+      color:var(--txt2); text-decoration:none;
+      font-size:.88rem; font-weight:500;
+      transition: color var(--t);
+    }
+    .nav-links a:hover { color:var(--txt); }
+    #lang-btn {
+      background:var(--accentS); color:var(--accent);
+      border:1px solid var(--accent); border-radius:6px;
+      padding:4px 12px; font-size:.8rem; font-weight:700;
+      cursor:pointer; transition: all var(--t);
+    }
+    #lang-btn:hover { background:var(--accent); color:#fff; }
+    .hamburger {
+      display:none; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:pointer; padding:4px; z-index:101;
+    }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--txt); border-radius:2px; transition: all var(--t); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height:100vh; display:flex; align-items:center;
+      padding:120px 24px 80px; position:relative; overflow:hidden;
+    }
+    #hero::before {
+      content:''; position:absolute; top:-200px; right:-200px;
+      width:700px; height:700px;
+      background:radial-gradient(circle, rgba(59,130,246,.12) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    #hero::after {
+      content:''; position:absolute; bottom:-100px; left:-100px;
+      width:400px; height:400px;
+      background:radial-gradient(circle, rgba(99,102,241,.08) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .hero-wrap { max-width:1100px; margin:0 auto; width:100%; }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--accentS); border:1px solid rgba(59,130,246,.3);
+      border-radius:100px; padding:6px 16px;
+      font-size:.82rem; color:var(--accent); margin-bottom:24px;
+    }
+    .hero-badge::before {
+      content:''; width:7px; height:7px; background:var(--accent);
+      border-radius:50%; animation:blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+    .hero-hi { font-size:1.1rem; color:var(--txt2); margin-bottom:6px; }
+    .hero-name {
+      font-size:clamp(2.8rem,8vw,5.5rem); font-weight:700; line-height:1.05;
+      background:linear-gradient(135deg,var(--txt) 0%,var(--accentH) 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; margin-bottom:14px;
+    }
+    .hero-role { font-size:clamp(1rem,2.5vw,1.4rem); color:var(--txt2); margin-bottom:6px; }
+    .hero-loc  { font-size:.9rem; color:var(--txt2); margin-bottom:40px; }
+    .hero-cta  { display:flex; gap:14px; flex-wrap:wrap; }
+    .btn-p {
+      background:var(--accent); color:#fff; border:none;
+      border-radius:var(--r); padding:12px 22px;
+      font-size:.92rem; font-weight:600; text-decoration:none;
+      display:inline-flex; align-items:center; gap:6px;
+      transition: all var(--t);
+    }
+    .btn-p:hover { background:var(--accentH); transform:translateY(-2px); }
+    .btn-s {
+      background:transparent; color:var(--txt);
+      border:1px solid var(--border); border-radius:var(--r);
+      padding:12px 22px; font-size:.92rem; font-weight:600;
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      transition: all var(--t);
+    }
+    .btn-s:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+    /* ── SECTION BASE ── */
+    section { padding:96px 24px; }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .s-label {
+      font-size:.78rem; font-weight:700; color:var(--accent);
+      text-transform:uppercase; letter-spacing:.12em; margin-bottom:10px;
+    }
+    .s-title {
+      font-size:clamp(1.7rem,4vw,2.4rem); font-weight:700;
+      line-height:1.2; margin-bottom:48px;
+    }
+
+    /* ── ABOUT ── */
+    #about { background:var(--bg2); }
+    .about-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+    }
+    .about-text p { color:var(--txt2); margin-bottom:16px; font-size:.97rem; line-height:1.82; }
+    .about-text p:last-child { margin-bottom:0; }
+    .stats { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .stat {
+      background:var(--bg); border:1px solid var(--border);
+      border-radius:var(--r); padding:24px; text-align:center;
+    }
+    .stat-n { font-size:2rem; font-weight:700; color:var(--accent); }
+    .stat-l { font-size:.82rem; color:var(--txt2); margin-top:4px; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background:var(--bg); }
+    .exp-card {
+      background:var(--bg2); border:1px solid var(--border);
+      border-left:3px solid var(--accent); border-radius:var(--r); padding:32px;
+    }
+    .exp-head {
+      display:flex; justify-content:space-between; align-items:flex-start;
+      flex-wrap:wrap; gap:8px; margin-bottom:6px;
+    }
+    .exp-co  { font-size:1.15rem; font-weight:700; }
+    .exp-per {
+      font-size:.8rem; color:var(--accent);
+      background:var(--accentS); padding:4px 12px; border-radius:100px;
+    }
+    .exp-role { font-size:.97rem; color:var(--txt2); margin-bottom:4px; }
+    .exp-loc  { font-size:.82rem; color:var(--txt2); margin-bottom:20px; }
+    .exp-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
+    .exp-list li {
+      color:var(--txt2); font-size:.93rem; line-height:1.65;
+      padding-left:20px; position:relative;
+    }
+    .exp-list li::before { content:'▸'; position:absolute; left:0; color:var(--accent); }
+    .exp-list li strong { color:var(--accentH); }
+    .exp-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+    .tag-sm {
+      background:var(--bg3); color:var(--txt2); border-radius:6px;
+      padding:3px 10px; font-size:.77rem; white-space:nowrap;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background:var(--bg2); }
+    .skills-grid {
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:20px;
+    }
+    .sk-cat {
+      background:var(--bg); border:1px solid var(--border);
+      border-radius:var(--r); padding:22px;
+    }
+    .sk-title {
+      font-size:.75rem; font-weight:700; color:var(--accent);
+      text-transform:uppercase; letter-spacing:.1em; margin-bottom:14px;
+    }
+    .sk-tags { display:flex; flex-wrap:wrap; gap:7px; }
+    .sk-tag {
+      background:var(--bg2); border:1px solid var(--border);
+      border-radius:6px; padding:4px 10px;
+      font-size:.79rem; color:var(--txt2);
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background:var(--bg); }
+    .projects-grid {
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(310px,1fr)); gap:22px;
+    }
+    .proj {
+      background:var(--bg2); border:1px solid var(--border);
+      border-radius:var(--r); overflow:hidden;
+      display:flex; flex-direction:column;
+      transition: all var(--t);
+    }
+    .proj:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 20px 40px rgba(59,130,246,.1); }
+    .proj-hd {
+      height:110px; display:flex; align-items:center;
+      justify-content:center; font-size:2.4rem;
+    }
+    .proj-body { padding:22px; flex:1; display:flex; flex-direction:column; }
+    .proj-title { font-size:1.02rem; font-weight:700; margin-bottom:8px; }
+    .proj-desc {
+      font-size:.88rem; color:var(--txt2); line-height:1.65; flex:1; margin-bottom:14px;
+    }
+    .proj-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
+    .proj-tag {
+      background:var(--accentS); color:var(--accent);
+      border-radius:4px; padding:2px 8px; font-size:.74rem; font-weight:500;
+    }
+    .proj-links { display:flex; gap:8px; }
+    .lnk {
+      text-decoration:none; font-size:.83rem; font-weight:500;
+      padding:6px 14px; border-radius:8px; transition: all var(--t);
+    }
+    .lnk.p { background:var(--accent); color:#fff; }
+    .lnk.p:hover { background:var(--accentH); }
+    .lnk.s { border:1px solid var(--border); color:var(--txt2); }
+    .lnk.s:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* ── CERTIFICATIONS ── */
+    #certifications { background:var(--bg2); }
+    .certs-grid {
+      display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:20px;
+    }
+    .cert {
+      background:var(--bg); border:1px solid var(--border); border-radius:var(--r);
+      padding:24px; display:flex; flex-direction:column; align-items:center;
+      text-align:center; gap:12px; transition: all var(--t);
+      text-decoration:none; color:inherit;
+    }
+    .cert:hover { border-color:var(--accent); transform:translateY(-2px); }
+    .cert img  { width:68px; height:68px; object-fit:contain; border-radius:8px; }
+    .cert-name { font-weight:600; font-size:.93rem; }
+    .cert-desc { font-size:.8rem; color:var(--txt2); line-height:1.5; }
+
+    /* ── CONTACT ── */
+    #contact { background:var(--bg); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px; }
+    .contact-items { display:flex; flex-direction:column; gap:14px; }
+    .ci { display:flex; align-items:center; gap:12px; color:var(--txt2); font-size:.93rem; }
+    .ci a { color:var(--accent); text-decoration:none; }
+    .ci a:hover { text-decoration:underline; }
+    .ci-icon { font-size:1.1rem; width:24px; text-align:center; }
+    .socials { display:flex; gap:10px; margin-top:12px; }
+    .soc {
+      width:42px; height:42px; background:var(--bg2); border:1px solid var(--border);
+      border-radius:var(--r); display:flex; align-items:center; justify-content:center;
+      text-decoration:none; color:var(--txt2); font-size:1rem; transition: all var(--t);
+    }
+    .soc:hover { border-color:var(--accent); color:var(--accent); }
+    .vcard-box {
+      background:var(--bg2); border:1px solid var(--border); border-radius:var(--r);
+      padding:32px; text-align:center; display:flex; flex-direction:column;
+      align-items:center; gap:14px;
+    }
+    .vcard-box .icon { font-size:3rem; }
+    .vcard-box h3 { font-size:1.05rem; font-weight:700; }
+    .vcard-box p { font-size:.87rem; color:var(--txt2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--bg2); border-top:1px solid var(--border);
+      padding:24px; text-align:center;
+    }
+    footer p { font-size:.82rem; color:var(--txt2); }
+
+    /* ── MOBILE ── */
+    @media(max-width:768px) {
+      .nav-links {
+        display:none; position:fixed; inset:0;
+        background:var(--bg); flex-direction:column;
+        align-items:center; justify-content:center;
+        gap:32px; z-index:100;
+      }
+      .nav-links.open { display:flex; }
+      .nav-links a { font-size:1.2rem; }
+      .hamburger { display:flex; }
+      .about-grid, .contact-grid { grid-template-columns:1fr; gap:40px; }
+      section { padding:64px 20px; }
+      .s-title { margin-bottom:32px; }
+      .hero-name { font-size:2.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav id="nav">
+  <div class="nav-wrap">
+    <a href="#hero" class="nav-logo">
+      <img src="assets/images/mylogo-2-149x190.png" alt="Felipe Romani">
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about"          data-en="About"          data-pt="Sobre">About</a></li>
+      <li><a href="#experience"     data-en="Experience"     data-pt="Experiência">Experience</a></li>
+      <li><a href="#projects"       data-en="Projects"       data-pt="Projetos">Projects</a></li>
+      <li><a href="#certifications" data-en="Certifications" data-pt="Certificações">Certifications</a></li>
+      <li><a href="#contact"        data-en="Contact"        data-pt="Contato">Contact</a></li>
+      <li><button id="lang-btn" onclick="toggleLang()">PT</button></li>
+    </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-wrap">
+    <div class="hero-badge" data-en="Open to new opportunities" data-pt="Aberto a novas oportunidades">Open to new opportunities</div>
+    <p class="hero-hi"   data-en="Hi, I'm"    data-pt="Olá, sou">Hi, I'm</p>
+    <h1 class="hero-name">Felipe Romani</h1>
+    <p class="hero-role" data-en="Data Engineer &amp; AI Developer" data-pt="Engenheiro de Dados &amp; Desenvolvedor de IA">Data Engineer &amp; AI Developer</p>
+    <p class="hero-loc"  data-en="📍 São Paulo, Brazil"            data-pt="📍 São Paulo, Brasil">📍 São Paulo, Brazil</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-p" data-en="View Projects →" data-pt="Ver Projetos →">View Projects →</a>
+      <a href="#contact"  class="btn-s" data-en="Get in Touch"    data-pt="Entre em Contato">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="wrap">
+    <p class="s-label" data-en="About Me"    data-pt="Sobre Mim">About Me</p>
+    <h2 class="s-title" data-en="Building data systems that create real impact" data-pt="Construindo sistemas de dados com impacto real">Building data systems that create real impact</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p data-en="Data Engineer and AI Developer with 3+ years of experience, currently at Mercado Pago (MercadoLibre Group). I specialize in building robust data pipelines, ETL automation on Google Cloud, and AI-powered applications." data-pt="Engenheiro de Dados e Desenvolvedor de IA com mais de 3 anos de experiência, atualmente no Mercado Pago (Grupo MercadoLibre). Especializado em construção de pipelines de dados robustos, automação ETL no Google Cloud e aplicações com IA.">Data Engineer and AI Developer with 3+ years of experience, currently at Mercado Pago (MercadoLibre Group). I specialize in building robust data pipelines, ETL automation on Google Cloud, and AI-powered applications.</p>
+        <p data-en="Proficient in Python, SQL, BigQuery, and Google Cloud Platform. Passionate about applying AI and data engineering to solve complex financial problems at scale." data-pt="Proficiente em Python, SQL, BigQuery e Google Cloud Platform. Apaixonado por aplicar IA e engenharia de dados para resolver problemas financeiros complexos em escala.">Proficient in Python, SQL, BigQuery, and Google Cloud Platform. Passionate about applying AI and data engineering to solve complex financial problems at scale.</p>
+        <p data-en="Outside of work, I build full-stack apps — from CRM systems and nutrition platforms to AI investment agents — and constantly explore new tools in the AI ecosystem." data-pt="Fora do trabalho, construo aplicações full-stack — de sistemas CRM e plataformas de nutrição a agentes de investimento com IA — e exploro constantemente as novidades do ecossistema de IA.">Outside of work, I build full-stack apps — from CRM systems and nutrition platforms to AI investment agents — and constantly explore new tools in the AI ecosystem.</p>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-n">3+</div>
+          <div class="stat-l" data-en="Years of Experience" data-pt="Anos de Experiência">Years of Experience</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">+20%</div>
+          <div class="stat-l" data-en="Revenue Impact" data-pt="Impacto em Receita">Revenue Impact</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">10+</div>
+          <div class="stat-l" data-en="Projects Built" data-pt="Projetos Construídos">Projects Built</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n">∞</div>
+          <div class="stat-l" data-en="Passion for Data" data-pt="Paixão por Dados">Passion for Data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="wrap">
+    <p class="s-label" data-en="Work History" data-pt="Histórico Profissional">Work History</p>
+    <h2 class="s-title" data-en="Experience" data-pt="Experiência">Experience</h2>
+    <div class="exp-card">
+      <div class="exp-head">
+        <div class="exp-co">Mercado Pago — MercadoLibre Group</div>
+        <div class="exp-per" data-en="2023 – Present" data-pt="2023 – Presente">2023 – Present</div>
+      </div>
+      <div class="exp-role" data-en="Data Engineer / Analyst — Funding &amp; Credit" data-pt="Engenheiro de Dados / Analista — Funding &amp; Crédito">Data Engineer / Analyst — Funding &amp; Credit</div>
+      <div class="exp-loc">📍 São Paulo, Brazil</div>
+      <ul class="exp-list">
+        <li data-en="Delivered a Corporate Lending Dashboard for the largest investment bank in Latin America, resulting in a <strong>20% increase in revenue</strong>" data-pt="Entregou um Dashboard de Corporate Lending para o maior banco de investimentos da América Latina, resultando em <strong>aumento de 20% na receita</strong>">Delivered a Corporate Lending Dashboard for the largest investment bank in Latin America, resulting in a <strong>20% increase in revenue</strong></li>
+        <li data-en="Built ETL pipelines on Google Cloud Dataflow (Apache Beam) processing financial data at scale" data-pt="Construiu pipelines ETL no Google Cloud Dataflow (Apache Beam) processando dados financeiros em escala">Built ETL pipelines on Google Cloud Dataflow (Apache Beam) processing financial data at scale</li>
+        <li data-en="Developed FIDC expense tracking and reconciliation systems for credit fund operations" data-pt="Desenvolveu sistemas de controle e reconciliação de despesas de FIDCs para operações de fundos de crédito">Developed FIDC expense tracking and reconciliation systems for credit fund operations</li>
+        <li data-en="Built AI-powered automation tools using Claude and Gemini for internal workflow optimization" data-pt="Construiu ferramentas de automação com IA usando Claude e Gemini para otimização de fluxos internos">Built AI-powered automation tools using Claude and Gemini for internal workflow optimization</li>
+        <li data-en="Managed MCP (Model Context Protocol) integrations with BigQuery for AI-assisted data analysis" data-pt="Gerenciou integrações MCP (Model Context Protocol) com BigQuery para análise de dados assistida por IA">Managed MCP (Model Context Protocol) integrations with BigQuery for AI-assisted data analysis</li>
+      </ul>
+      <div class="exp-tags">
+        <span class="tag-sm">Python</span>
+        <span class="tag-sm">BigQuery</span>
+        <span class="tag-sm">Dataflow</span>
+        <span class="tag-sm">Apache Beam</span>
+        <span class="tag-sm">GCP</span>
+        <span class="tag-sm">SQL</span>
+        <span class="tag-sm">Claude AI</span>
+        <span class="tag-sm">Gemini</span>
+        <span class="tag-sm">MCP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="wrap">
+    <p class="s-label" data-en="What I work with" data-pt="Com o que trabalho">What I work with</p>
+    <h2 class="s-title" data-en="Skills &amp; Technologies" data-pt="Habilidades &amp; Tecnologias">Skills &amp; Technologies</h2>
+    <div class="skills-grid">
+      <div class="sk-cat">
+        <div class="sk-title" data-en="Languages" data-pt="Linguagens">Languages</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Python</span><span class="sk-tag">SQL</span>
+          <span class="sk-tag">JavaScript</span><span class="sk-tag">Bash</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-title" data-en="Cloud &amp; Data" data-pt="Cloud &amp; Dados">Cloud &amp; Data</div>
+        <div class="sk-tags">
+          <span class="sk-tag">GCP</span><span class="sk-tag">BigQuery</span>
+          <span class="sk-tag">Dataflow</span><span class="sk-tag">Apache Beam</span>
+          <span class="sk-tag">Cloud Storage</span><span class="sk-tag">AWS</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-title">AI &amp; ML</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Claude AI</span><span class="sk-tag">Gemini</span>
+          <span class="sk-tag">DeepSeek</span><span class="sk-tag">Agno</span>
+          <span class="sk-tag">CrewAI</span><span class="sk-tag">MCP</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-title" data-en="Frameworks" data-pt="Frameworks">Frameworks</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Streamlit</span><span class="sk-tag">Flask</span>
+          <span class="sk-tag">FastAPI</span><span class="sk-tag">Pandas</span>
+          <span class="sk-tag">Scikit-Learn</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-title" data-en="Databases" data-pt="Bancos de Dados">Databases</div>
+        <div class="sk-tags">
+          <span class="sk-tag">PostgreSQL</span><span class="sk-tag">Supabase</span>
+          <span class="sk-tag">BigQuery</span><span class="sk-tag">SQLite</span>
+        </div>
+      </div>
+      <div class="sk-cat">
+        <div class="sk-title" data-en="Tools &amp; Infra" data-pt="Ferramentas &amp; Infra">Tools &amp; Infra</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Git</span><span class="sk-tag">Docker</span>
+          <span class="sk-tag">Vercel</span><span class="sk-tag">Power BI</span>
+          <span class="sk-tag">Databricks</span><span class="sk-tag">Snowflake</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="wrap">
+    <p class="s-label" data-en="What I've built" data-pt="O que construí">What I've built</p>
+    <h2 class="s-title" data-en="Projects" data-pt="Projetos">Projects</h2>
+    <div class="projects-grid">
+
+      <!-- CRM -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#1a2e4a,#1e293b);">🏢</div>
+        <div class="proj-body">
+          <h3 class="proj-title" data-en="CRM Consórcios" data-pt="CRM Consórcios">CRM Consórcios</h3>
+          <p class="proj-desc" data-en="Full-stack CRM for consortium management — lead pipeline, client tracking, installment control, and a complete sales funnel from new lead to contemplated client." data-pt="CRM full-stack para gestão de consórcios — funil de vendas completo, controle de leads, clientes e parcelas, do lead novo ao cliente contemplado.">Full-stack CRM for consortium management — lead pipeline, client tracking, installment control, and a complete sales funnel from new lead to contemplated client.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Streamlit</span>
+            <span class="proj-tag">Supabase</span><span class="proj-tag">PostgreSQL</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/fcromani00/crm-consorcios" target="_blank" class="lnk s" data-en="GitHub" data-pt="GitHub">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nutri-App -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#0d2e1a,#1e293b);">🥗</div>
+        <div class="proj-body">
+          <h3 class="proj-title" data-en="Nutri-App" data-pt="Nutri-App">Nutri-App</h3>
+          <p class="proj-desc" data-en="Comprehensive nutrition platform — patient management, anamnesis, dietary plan builder, progress tracking, and automated reports. Multi-page Streamlit app with a full database backend." data-pt="Plataforma completa de nutrição — gestão de pacientes, anamnese, montagem de planos alimentares, acompanhamento de progresso e relatórios automáticos.">Comprehensive nutrition platform — patient management, anamnesis, dietary plan builder, progress tracking, and automated reports. Multi-page Streamlit app with a full database backend.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Streamlit</span>
+            <span class="proj-tag">SQLite</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/fcromani00/Nutri-App" target="_blank" class="lnk s" data-en="GitHub" data-pt="GitHub">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PlaymakerStats API -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#1e1a3a,#1e293b);">⚽</div>
+        <div class="proj-body">
+          <h3 class="proj-title" data-en="PlaymakerStats API" data-pt="PlaymakerStats API">PlaymakerStats API</h3>
+          <p class="proj-desc" data-en="REST API for football statistics and player performance data. Production-ready setup deployed on Vercel, with optimized endpoints for querying historical sports data." data-pt="API REST para estatísticas de futebol e dados de performance de jogadores. Deploy no Vercel com endpoints otimizados para consulta de dados históricos.">REST API for football statistics and player performance data. Production-ready setup deployed on Vercel, with optimized endpoints for querying historical sports data.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Flask</span>
+            <span class="proj-tag">Vercel</span><span class="proj-tag">REST API</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/fcromani00/PlaymakerStats-API" target="_blank" class="lnk s" data-en="GitHub" data-pt="GitHub">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Finanças -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#0a2030,#1e293b);">📊</div>
+        <div class="proj-body">
+          <h3 class="proj-title" data-en="Financial Dashboard" data-pt="Dashboard Financeiro">Financial Dashboard</h3>
+          <p class="proj-desc" data-en="Personal finance tracker with invoice management, brokerage notes, and investment analysis. Includes an AI-powered financial advisor built with Streamlit." data-pt="Dashboard financeiro pessoal com gestão de faturas, notas de corretagem e análise de investimentos. Inclui assessor financeiro com IA feito em Streamlit.">Personal finance tracker with invoice management, brokerage notes, and investment analysis. Includes an AI-powered financial advisor built with Streamlit.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Streamlit</span>
+            <span class="proj-tag">Pandas</span><span class="proj-tag">AI</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://github.com/fcromani00/Dashboard-Financas" target="_blank" class="lnk s" data-en="GitHub" data-pt="GitHub">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ScoutDatabase -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#2a1a0a,#1e293b);">🔭</div>
+        <div class="proj-body">
+          <h3 class="proj-title">ScoutDatabase</h3>
+          <p class="proj-desc" data-en="Football scouting database — search and explore player stats, club data, and performance metrics. Deployed as a live Streamlit web app." data-pt="Banco de dados de scout de futebol — pesquise e explore estatísticas de jogadores, dados de clubes e métricas de performance. Streamlit app no ar.">Football scouting database — search and explore player stats, club data, and performance metrics. Deployed as a live Streamlit web app.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Streamlit</span>
+            <span class="proj-tag">SQL</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://scoutdatabasev1.streamlit.app/" target="_blank" class="lnk p" data-en="Live App" data-pt="App ao Vivo">Live App</a>
+            <a href="https://github.com/fcromani00/ScoutDatabase" target="_blank" class="lnk s" data-en="GitHub" data-pt="GitHub">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Corporate Lending -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#0d2e10,#1e293b);">🏦</div>
+        <div class="proj-body">
+          <h3 class="proj-title" data-en="Corporate Lending Dashboard" data-pt="Dashboard Corporate Lending">Corporate Lending Dashboard</h3>
+          <p class="proj-desc" data-en="BI dashboard built for the Corporate Lending team of the largest investment bank in Latin America. Delivered a 20% increase in team revenue through data-driven insights." data-pt="Dashboard de BI para o time de Corporate Lending do maior banco de investimentos da América Latina. Resultou em 20% de aumento na receita com insights orientados a dados.">BI dashboard built for the Corporate Lending team of the largest investment bank in Latin America. Delivered a 20% increase in team revenue through data-driven insights.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Power BI</span><span class="proj-tag">SQL</span>
+            <span class="proj-tag">ETL</span><span class="proj-tag">SSAS</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://drive.google.com/file/d/15aI9m8sjvx_A2tx1rSnTliWTHle21c03/view?usp=sharing" target="_blank" class="lnk p" data-en="View Demo" data-pt="Ver Demo">View Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- NYC Taxi -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#2a0a0a,#1e293b);">🚕</div>
+        <div class="proj-body">
+          <h3 class="proj-title" data-en="NYC Taxi Demand Predictor" data-pt="Preditor de Demanda de Táxi NYC">NYC Taxi Demand Predictor</h3>
+          <p class="proj-desc" data-en="Machine learning model predicting NYC taxi demand using Databricks and Apache Spark. Analyzes historical trip patterns to forecast demand by zone and time of day." data-pt="Modelo de machine learning para prever demanda de táxi em NYC usando Databricks e Apache Spark. Analisa padrões históricos de corridas por zona e horário.">Machine learning model predicting NYC taxi demand using Databricks and Apache Spark. Analyzes historical trip patterns to forecast demand by zone and time of day.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Databricks</span>
+            <span class="proj-tag">Spark</span><span class="proj-tag">ML</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/2902168717747346/4393901861204493/8505528246035727/latest.html" target="_blank" class="lnk p" data-en="View Notebook" data-pt="Ver Notebook">View Notebook</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- TumTum IA -->
+      <div class="proj">
+        <div class="proj-hd" style="background:linear-gradient(135deg,#1a1a2e,#1e293b);">🤖</div>
+        <div class="proj-body">
+          <h3 class="proj-title">TumTum IA</h3>
+          <p class="proj-desc" data-en="AI-powered Streamlit application with a conversational interface. Interactive intelligent assistant built for practical, real-world use." data-pt="Aplicação Streamlit com IA e interface conversacional. Assistente inteligente construído para uso prático no dia a dia.">AI-powered Streamlit application with a conversational interface. Interactive intelligent assistant built for practical, real-world use.</p>
+          <div class="proj-tags">
+            <span class="proj-tag">Python</span><span class="proj-tag">Streamlit</span>
+            <span class="proj-tag">AI</span>
+          </div>
+          <div class="proj-links">
+            <a href="https://tumtum.streamlit.app/" target="_blank" class="lnk p" data-en="Live App" data-pt="App ao Vivo">Live App</a>
+            <a href="https://github.com/fcromani00/tumtum" target="_blank" class="lnk s" data-en="GitHub" data-pt="GitHub">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certifications">
+  <div class="wrap">
+    <p class="s-label" data-en="Education &amp; Credentials" data-pt="Educação &amp; Credenciais">Education &amp; Credentials</p>
+    <h2 class="s-title" data-en="Certifications &amp; Education" data-pt="Certificações &amp; Educação">Certifications &amp; Education</h2>
+    <div class="certs-grid">
+
+      <a href="https://credentials.databricks.com/578296d7-3d74-4984-a0f4-df688d3a17f0" target="_blank" class="cert">
+        <img src="assets/images/databrickswithbackground.png" alt="Databricks">
+        <div class="cert-name">Databricks</div>
+        <div class="cert-desc" data-en="Academy Accreditation — Lakehouse Fundamentals" data-pt="Acreditação — Lakehouse Fundamentals">Academy Accreditation — Lakehouse Fundamentals</div>
+      </a>
+
+      <a href="https://achieve.snowflake.com/9bafb4f7-76b7-461d-9f45-fc7cfe9642f1" target="_blank" class="cert">
+        <img src="assets/images/snowflakewithbackground.png" alt="Snowflake">
+        <div class="cert-name">Snowflake</div>
+        <div class="cert-desc" data-en="Hands-On Essentials: Data Warehousing Workshop" data-pt="Hands-On Essentials: Data Warehousing Workshop">Hands-On Essentials: Data Warehousing Workshop</div>
+      </a>
+
+      <a href="https://learn.microsoft.com/en-us/users/feliperomani-5620/achievements/2kfmjgxv" target="_blank" class="cert">
+        <img src="assets/images/adfwithbackground.png" alt="Azure Data Factory">
+        <div class="cert-name">Azure Data Factory</div>
+        <div class="cert-desc" data-en="Introduction to Azure Data Factory" data-pt="Introdução ao Azure Data Factory">Introduction to Azure Data Factory</div>
+      </a>
+
+      <a href="https://drive.google.com/file/d/1KMtdDQ36bajW3ZEyQdv0ajB-uTIMrIAy/view" target="_blank" class="cert">
+        <img src="assets/images/awswithbackground.png" alt="AWS">
+        <div class="cert-name">AWS</div>
+        <div class="cert-desc" data-en="Cloud Camp — Big Data On AWS" data-pt="Cloud Camp — Big Data na AWS">Cloud Camp — Big Data On AWS</div>
+      </a>
+
+      <div class="cert" style="cursor:default;">
+        <img src="assets/images/ifspwithbackground.png" alt="IFSP">
+        <div class="cert-name">Instituto Federal de São Paulo</div>
+        <div class="cert-desc" data-en="Associate Degree — Systems Analysis and Development" data-pt="Tecnólogo — Análise e Desenvolvimento de Sistemas">Associate Degree — Systems Analysis and Development</div>
+      </div>
+
+      <a href="https://drive.google.com/file/d/1dh-zqsOTaCnGalXw-44-q3urMPtYsES4/view" target="_blank" class="cert">
+        <img src="assets/images/uspwithbackground.png" alt="USP">
+        <div class="cert-name">Universidade de São Paulo</div>
+        <div class="cert-desc" data-en="Bachelor's Degree — Physical Education and Health" data-pt="Bacharelado — Educação Física e Saúde">Bachelor's Degree — Physical Education and Health</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="wrap">
+    <p class="s-label" data-en="Let's Connect"   data-pt="Vamos Conversar">Let's Connect</p>
+    <h2 class="s-title" data-en="Get in Touch" data-pt="Entre em Contato">Get in Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-items">
+        <div class="ci"><span class="ci-icon">📧</span><span>Email: <a href="mailto:fcromani@alumni.usp.br">fcromani@alumni.usp.br</a></span></div>
+        <div class="ci"><span class="ci-icon">📱</span><span>WhatsApp: <a href="https://wa.me/5512982473960" target="_blank">+55 12 98247-3960</a></span></div>
+        <div class="ci"><span class="ci-icon">💼</span><span>LinkedIn: <a href="https://www.linkedin.com/in/feliperomani/" target="_blank">/feliperomani</a></span></div>
+        <div class="ci"><span class="ci-icon">💻</span><span>GitHub: <a href="https://github.com/fcromani00" target="_blank">/fcromani00</a></span></div>
+        <div class="ci">
+          <span class="ci-icon">📍</span>
+          <span data-en="Bela Vista, São Paulo — Brazil" data-pt="Bela Vista, São Paulo — Brasil">Bela Vista, São Paulo — Brazil</span>
+        </div>
+        <div class="socials">
+          <a href="https://www.instagram.com/romanifelipe"     target="_blank" class="soc" title="Instagram">📸</a>
+          <a href="https://www.linkedin.com/in/feliperomani/"  target="_blank" class="soc" title="LinkedIn">💼</a>
+          <a href="https://wa.me/5512982473960"                target="_blank" class="soc" title="WhatsApp">💬</a>
+          <a href="https://github.com/fcromani00"              target="_blank" class="soc" title="GitHub">🐙</a>
+        </div>
+      </div>
+      <div class="vcard-box">
+        <div class="icon">📇</div>
+        <h3 data-en="Save My Contact" data-pt="Salvar Meu Contato">Save My Contact</h3>
+        <p data-en="Download my contact card to add me to your contacts instantly." data-pt="Baixe meu cartão de contato para me adicionar instantaneamente.">Download my contact card to add me to your contacts instantly.</p>
+        <a href="assets/Felipe_Romani.vcf" download="Felipe_Romani.vcf" class="btn-p" data-en="📇 Download VCard" data-pt="📇 Baixar VCard">📇 Download VCard</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p data-en="© 2025 Felipe Romani. Built with ♥ and deployed on Vercel." data-pt="© 2025 Felipe Romani. Feito com ♥ e publicado no Vercel.">© 2025 Felipe Romani. Built with ♥ and deployed on Vercel.</p>
+</footer>
+
+<script>
+  // ── Language toggle ──
+  let lang = localStorage.getItem('portfolio-lang') || 'en';
+
+  function applyLang(l) {
+    document.querySelectorAll('[data-en][data-pt]').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + l);
+    });
+    document.getElementById('lang-btn').textContent = l === 'en' ? 'PT' : 'EN';
+    document.documentElement.lang = l;
+    localStorage.setItem('portfolio-lang', l);
+  }
+
+  function toggleLang() {
+    lang = lang === 'en' ? 'pt' : 'en';
+    applyLang(lang);
+  }
+
+  if (lang === 'pt') applyLang('pt');
+
+  // ── Nav scroll effect ──
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // ── Mobile menu ──
+  function toggleMenu() {
+    document.getElementById('nav-links').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+  });
+</script>
+</body>
+</html>
