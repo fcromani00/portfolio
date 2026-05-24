@@ -296,6 +296,69 @@
     }
     footer p { font-size:.82rem; color:var(--txt2); }
 
+    /* ── CHAT WIDGET ── */
+    .chat-btn {
+      position:fixed; bottom:24px; right:24px; z-index:200;
+      width:56px; height:56px; background:var(--accent); color:#fff;
+      border:none; border-radius:50%; cursor:pointer; font-size:1.3rem;
+      box-shadow:0 4px 24px rgba(59,130,246,.45);
+      transition: all var(--t); display:flex; align-items:center; justify-content:center;
+    }
+    .chat-btn:hover { background:var(--accentH); transform:scale(1.08); }
+    .chat-window {
+      position:fixed; bottom:92px; right:24px; z-index:200;
+      width:340px; height:470px;
+      background:var(--bg2); border:1px solid var(--border); border-radius:16px;
+      display:flex; flex-direction:column;
+      box-shadow:0 24px 64px rgba(0,0,0,.5);
+      transform:translateY(16px) scale(.96); opacity:0; pointer-events:none;
+      transition: all var(--t);
+    }
+    .chat-window.open { transform:translateY(0) scale(1); opacity:1; pointer-events:all; }
+    .chat-hd {
+      padding:14px 18px; border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+    }
+    .chat-hd-info { display:flex; align-items:center; gap:10px; }
+    .chat-avatar {
+      width:34px; height:34px; background:var(--accent); border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:.95rem;
+    }
+    .chat-hd h4 { font-size:.9rem; font-weight:600; line-height:1.2; }
+    .chat-hd p  { font-size:.72rem; color:var(--txt2); }
+    .chat-x { background:none; border:none; color:var(--txt2); cursor:pointer; font-size:1rem; padding:4px; transition:color var(--t); }
+    .chat-x:hover { color:var(--txt); }
+    .chat-msgs { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:10px; }
+    .chat-msgs::-webkit-scrollbar { width:4px; }
+    .chat-msgs::-webkit-scrollbar-track { background:transparent; }
+    .chat-msgs::-webkit-scrollbar-thumb { background:var(--bg3); border-radius:4px; }
+    .cmsg {
+      max-width:88%; border-radius:12px; padding:9px 13px;
+      font-size:.85rem; line-height:1.55; word-break:break-word;
+    }
+    .cmsg.bot  { background:var(--bg3); align-self:flex-start; border-radius:4px 12px 12px 12px; color:var(--txt); }
+    .cmsg.user { background:var(--accent); color:#fff; align-self:flex-end; border-radius:12px 4px 12px 12px; }
+    .cmsg.load { background:var(--bg3); align-self:flex-start; color:var(--txt2); font-style:italic; }
+    .chat-foot { padding:10px 14px; border-top:1px solid var(--border); display:flex; gap:8px; flex-shrink:0; }
+    .chat-inp {
+      flex:1; background:var(--bg); border:1px solid var(--border); border-radius:8px;
+      padding:8px 11px; color:var(--txt); font-size:.85rem; font-family:inherit;
+      outline:none; height:38px; transition:border-color var(--t);
+    }
+    .chat-inp:focus { border-color:var(--accent); }
+    .chat-inp::placeholder { color:var(--txt2); }
+    .chat-send {
+      background:var(--accent); color:#fff; border:none; border-radius:8px;
+      width:38px; height:38px; cursor:pointer; font-size:.88rem;
+      transition:background var(--t); display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .chat-send:hover { background:var(--accentH); }
+    .chat-send:disabled { background:var(--bg3); cursor:not-allowed; }
+    @media(max-width:400px) {
+      .chat-window { width:calc(100vw - 24px); right:12px; }
+    }
+
     /* ── MOBILE ── */
     @media(max-width:768px) {
       .nav-links {
@@ -700,6 +763,39 @@
   </div>
 </section>
 
+<!-- ── CHAT WIDGET ── -->
+<button class="chat-btn" id="chat-btn" onclick="toggleChat()" title="Ask about Felipe">
+  <i class="fas fa-comment-dots"></i>
+</button>
+<div class="chat-window" id="chat-window">
+  <div class="chat-hd">
+    <div class="chat-hd-info">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <h4 data-en="Ask about Felipe" data-pt="Pergunte sobre o Felipe">Ask about Felipe</h4>
+        <p data-en="AI Assistant · Powered by Gemini" data-pt="Assistente IA · Gemini">AI Assistant · Powered by Gemini</p>
+      </div>
+    </div>
+    <button class="chat-x" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="cmsg bot" id="welcome-msg"
+      data-en="Hi! 👋 Ask me anything about Felipe — his experience, projects, skills, or how to reach him."
+      data-pt="Olá! 👋 Pergunte qualquer coisa sobre o Felipe — experiência, projetos, habilidades ou como entrar em contato.">
+      Hi! 👋 Ask me anything about Felipe — his experience, projects, skills, or how to reach him.
+    </div>
+  </div>
+  <div class="chat-foot">
+    <input type="text" class="chat-inp" id="chat-inp"
+      data-en="Ask a question..." data-pt="Faça uma pergunta..."
+      placeholder="Ask a question..."
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}">
+    <button class="chat-send" id="chat-send" onclick="sendMsg()">
+      <i class="fas fa-paper-plane"></i>
+    </button>
+  </div>
+</div>
+
 <!-- ── FOOTER ── -->
 <footer>
   <p data-en="© 2025 Felipe Romani. Built with ♥ and deployed on Vercel." data-pt="© 2025 Felipe Romani. Feito com ♥ e publicado no Vercel.">© 2025 Felipe Romani. Built with ♥ and deployed on Vercel.</p>
@@ -711,7 +807,11 @@
 
   function applyLang(l) {
     document.querySelectorAll('[data-en][data-pt]').forEach(el => {
-      el.innerHTML = el.getAttribute('data-' + l);
+      if (el.tagName === 'INPUT') {
+        el.placeholder = el.getAttribute('data-' + l);
+      } else {
+        el.innerHTML = el.getAttribute('data-' + l);
+      }
     });
     document.getElementById('lang-btn').textContent = l === 'en' ? 'PT' : 'EN';
     document.documentElement.lang = l;
@@ -738,6 +838,62 @@
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
   });
+
+  // ── Chat widget ──
+  let chatOpen = false;
+  let chatHistory = [];
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-window').classList.toggle('open', chatOpen);
+    const btn = document.getElementById('chat-btn');
+    btn.innerHTML = chatOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-comment-dots"></i>';
+    if (chatOpen) setTimeout(() => document.getElementById('chat-inp').focus(), 200);
+  }
+
+  function escHtml(t) {
+    const d = document.createElement('div');
+    d.textContent = t;
+    return d.innerHTML;
+  }
+
+  async function sendMsg() {
+    const inp  = document.getElementById('chat-inp');
+    const msgs = document.getElementById('chat-msgs');
+    const btn  = document.getElementById('chat-send');
+    const msg  = inp.value.trim();
+    if (!msg || btn.disabled) return;
+
+    msgs.innerHTML += `<div class="cmsg user">${escHtml(msg)}</div>`;
+    inp.value = '';
+    btn.disabled = true;
+
+    const loadId = 'l' + Date.now();
+    msgs.innerHTML += `<div class="cmsg load" id="${loadId}">●●●</div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+
+    try {
+      const res  = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, history: chatHistory })
+      });
+      const data = await res.json();
+      document.getElementById(loadId)?.remove();
+
+      const reply = data.reply || data.error || 'Sorry, something went wrong.';
+      chatHistory.push({ role: 'user',  parts: [{ text: msg }] });
+      chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+      msgs.innerHTML += `<div class="cmsg bot">${escHtml(reply)}</div>`;
+    } catch {
+      document.getElementById(loadId)?.remove();
+      msgs.innerHTML += `<div class="cmsg bot">Connection error. Please try again.</div>`;
+    }
+
+    btn.disabled = false;
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
 </script>
 </body>
 </html>
