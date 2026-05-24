@@ -47,7 +47,7 @@ RULES:
 - For off-topic questions, politely say you can only help with questions about Felipe.
 - Encourage the user to reach out directly for professional opportunities.`;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -63,7 +63,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -79,7 +79,10 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error?.message || 'Gemini API error');
+    if (!response.ok) {
+      console.error('Gemini API error:', JSON.stringify(data));
+      throw new Error(data.error?.message || 'Gemini API error');
+    }
 
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!reply) throw new Error('Empty response from Gemini');
